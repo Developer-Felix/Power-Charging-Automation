@@ -64,11 +64,11 @@
         }
     </style>
 </head>
-<body><!-- <h2>Welcome to Power Charging</h2>
-    <p>Charge your phone hassle-free!</p> <br> -->
-    <form id="payment-form" method="POST">
+<body>
+    <form id="payment-form" method="POST"> <h2>Welcome to Power Charging</h2>
+        <p>Charge your phone hassle-free!</p> <br>  
         {% csrf_token %}
-        <h1>Choose a Plan</h1>
+        <h4>Choose a Plan</h1>
         <label for="plan">Select Plan:</label>
         <select name="plan" id="plan">
             <option value="10">10 minutes - Sh. 10</option>
@@ -77,7 +77,7 @@
             <!-- Add more options as needed -->
         </select>
         <br>
-        <label for="phone_number">Phone Number:</label>
+        <label for="phone_number">Mpesa Phone Number:</label>
         <input type="text" name="phone_number" id="phone_number">
         <br>
         <input type="submit" value="Pay">
@@ -105,8 +105,10 @@
                         var response = JSON.parse(xhr.responseText);
                         if (response.success) {
                             var access_code = response.access_code;
+                            speakAccessCode(access_code); // Call the function to announce the access code
                             alert("Payment successful. Access Code: " + access_code);
                             form.reset(); // Reset the form fields
+                            speakAccessCode(access_code); // Call the function to announce the access code
                         } else {
                             alert("Payment failed. Please try again.");
                         }
@@ -120,6 +122,16 @@
                        "&minutes_paid=" + encodeURIComponent(plan);
             xhr.send(data);
         });
+
+        // Function to announce the access code using speech synthesis
+        function speakAccessCode(accessCode) {
+            if ('speechSynthesis' in window) {
+                var message = new SpeechSynthesisUtterance("hello, Your access code is: " + accessCode);
+                window.speechSynthesis.speak(message);
+            } else {
+                console.log("Speech synthesis is not supported in this browser.");
+            }
+        }
     </script>
 </body>
 </html>
