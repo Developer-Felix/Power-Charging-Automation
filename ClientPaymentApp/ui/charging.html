@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Power Charging | Access Code Verification</title>
+    <style>
+        /* CSS styles */
+
+        /* ... existing styles ... */
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Access Code Verification</h2>
+    <p>Please enter your 4-digit access code:</p>
+
+    <form id="access-code-form" method="POST">
+        {% csrf_token %}
+        <input type="text" name="access_code" id="access_code" maxlength="4" pattern="[0-9]{4}" required>
+        <br>
+        <input type="submit" value="Verify">
+    </form>
+
+    <script>
+        // Handle form submission via AJAX
+        document.getElementById("access-code-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            var form = this;
+            var url = form.action;
+            var csrf_token = form.getElementsByTagName("input")[0].value;
+
+            var access_code = form.elements["access_code"].value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.setRequestHeader("X-CSRFToken", csrf_token);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.success) {
+                            alert("Access code verified. You can now start charging.");
+                            form.reset(); // Reset the form fields
+                        } else {
+                            alert(response.message);
+                        }
+                    } else {
+                        alert("An error occurred. Please try again later.");
+                    }
+                }
+            };
+
+            var data = "access_code=" + encodeURIComponent(access_code);
+            xhr.send(data);
+        });
+    </script>
+</body>
+</html>
