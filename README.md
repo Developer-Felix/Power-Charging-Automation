@@ -18,11 +18,11 @@ will be another table for the devices and the location. that we will explain in 
 
 ## Client Charging side and recieving code side
 
-This place we will have a keyboard to recive the 4 digit code that the customer was given after the payments. 
-once the user inputs the 4 digits code there system should be able to allocate the user a charging port that is 
+- This place we will have a keyboard to recive the 4 digit code that the customer was given after the payments. 
+- once the user inputs the 4 digits code there system should be able to allocate the user a charging port that is 
 empty to start charging and once the charging minutes is over the port is disabled and no charging should take place. 
-Each charging location shoud have 50 charging ports for phones and there should be table to relate the code with the 
+- Each charging location shoud have 50 charging ports for phones and there should be table to relate the code with the 
 devices. They should share the backend.
 
-we will design two systems one with django and the other with python terminal. The code should query one database.
-This means we should have a django api for the client charging with is terminal to query the django database that will be in the frontend sides.
+-We will design two systems one with django and the other with python terminal. The code should query one database.
+- This means we should have a django api for the client charging with is terminal to query the django database that will be in the frontend sides.
